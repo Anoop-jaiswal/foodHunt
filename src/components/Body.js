@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurant] = useState([]);
+  const [filteredRestaurants, setfilteredRestaurants] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -12,6 +13,14 @@ const Body = () => {
       const jsonData = await data.json();
 
       setListOfRestaurant(
+        jsonData.data.cards[1].card.card.gridElements.infoWithStyle.restaurants.map(
+          (res) => {
+            return res.info;
+          }
+        )
+      );
+
+      setfilteredRestaurants(
         jsonData.data.cards[1].card.card.gridElements.infoWithStyle.restaurants.map(
           (res) => {
             return res.info;
@@ -29,16 +38,32 @@ const Body = () => {
 
   const topRestaurant = () => {
     const filteredList = listOfRestaurants.filter((res) => res.avgRating > 4.3);
-    setListOfRestaurant(filteredList);
+    setfilteredRestaurants(filteredList);
   };
 
   return (
     <div className="body">
-      <div className="search">
-        <button onClick={topRestaurant}>Top restaurant list</button>
+      <div className="search-filter-container">
+        <div className="top-restarants">
+          <button onClick={topRestaurant}>Top restaurant list</button>
+        </div>
+        <div className="search">
+          <input
+            onChange={(e) => {
+              const filtered = listOfRestaurants.filter((res) => {
+                return (
+                  res.name &&
+                  res.name.toLowerCase().includes(e.target.value.toLowerCase())
+                );
+              });
+              setfilteredRestaurants(filtered);
+            }}
+          />
+        </div>
       </div>
+
       <div className="res-container">
-        {listOfRestaurants.map((restaurant) => (
+        {filteredRestaurants.map((restaurant) => (
           <RestaurantCard resData={restaurant} />
         ))}
       </div>
