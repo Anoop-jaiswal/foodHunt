@@ -53,12 +53,13 @@ const Body = () => {
 
   return (
     <div className="body">
-      <div className="search-filter-container">
-        <div className="top-restarants">
+      <div className="search-filter-container flex m-2 p-2">
+        <div className="top-restarants border mx-4 px-2 border-neutral-900">
           <button onClick={topRestaurant}>Top restaurant list</button>
         </div>
-        <div className="search">
+        <div className="search flex  mx-4 px-2 ">
           <input
+            className="border  border-neutral-900 px-1"
             onChange={(e) => {
               const filtered = listOfRestaurants.filter((res) => {
                 return (
@@ -69,10 +70,11 @@ const Body = () => {
               setfilteredRestaurants(filtered);
             }}
           />
+          <h3 className="border  border-neutral-900 px-1">Search</h3>
         </div>
       </div>
 
-      <div className="res-container">
+      <div className="res-container flex flex-wrap justify-center">
         {filteredRestaurants.map((restaurant) => (
           <Link to={`/restaurants/${restaurant.id}`}>
             <RestaurantCard resData={restaurant} />
