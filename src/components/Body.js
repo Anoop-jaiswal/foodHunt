@@ -1,8 +1,10 @@
 import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
+  const online = useOnlineStatus();
   const [listOfRestaurants, setListOfRestaurant] = useState([]);
   const [filteredRestaurants, setfilteredRestaurants] = useState([]);
 
@@ -41,6 +43,13 @@ const Body = () => {
     const filteredList = listOfRestaurants.filter((res) => res.avgRating > 4.3);
     setfilteredRestaurants(filteredList);
   };
+
+  if (online === false)
+    return (
+      <h1>
+        Oops! ,Look like you are Offline, please check your internate connection
+      </h1>
+    );
 
   return (
     <div className="body">
