@@ -1,13 +1,10 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Header from "./components/Header";
-import Body from "./components/Body";
-import About from "./components/About";
-import Contact from "./components/Contact";
 import Cart from "./components/Cart";
 import Error from "./components/Error";
-import RestaurantsMenu from "./components/RestaurantsMenu";
+import Body from "./components/Body";
 
 const AppLayout = () => {
   return (
@@ -17,6 +14,11 @@ const AppLayout = () => {
     </div>
   );
 };
+
+//Implementing lazy loading for components
+const RestaurantsMenu = lazy(() => import("./components/RestaurantsMenu"));
+const About = lazy(() => import("./components/About"));
+const Contact = lazy(() => import("./components/Contact"));
 
 const appRouter = createBrowserRouter([
   {
@@ -29,11 +31,20 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About />,
+        element: (
+          //Lazy loading component must be wrapped inside suspense
+          <Suspense fallback={<h1>Loading....</h1>}>
+            <About />
+          </Suspense>
+        ),
       },
       {
         path: "/contact",
-        element: <Contact />,
+        element: (
+          <Suspense fallback={<h1>Loading....</h1>}>
+            <Contact />
+          </Suspense>
+        ),
       },
       {
         path: "/cart",
@@ -41,7 +52,11 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/restaurants/:resId",
-        element: <RestaurantsMenu />,
+        element: (
+          <Suspense fallback={<h1>Loading....</h1>}>
+            <RestaurantsMenu />
+          </Suspense>
+        ),
       },
     ],
     errorElement: <Error />,
