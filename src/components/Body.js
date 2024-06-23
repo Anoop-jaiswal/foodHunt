@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { RecommendedRestaurantCards } from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
@@ -7,6 +7,7 @@ const Body = () => {
   const online = useOnlineStatus();
   const [listOfRestaurants, setListOfRestaurant] = useState([]);
   const [filteredRestaurants, setfilteredRestaurants] = useState([]);
+  const RecommendedRestaurant = RecommendedRestaurantCards(RestaurantCard);
 
   const fetchData = async () => {
     try {
@@ -77,7 +78,11 @@ const Body = () => {
       <div className="res-container flex flex-wrap justify-center">
         {filteredRestaurants.map((restaurant) => (
           <Link to={`/restaurants/${restaurant.id}`}>
-            <RestaurantCard resData={restaurant} />
+            {restaurant.avgRating > 4.5 ? (
+              <RecommendedRestaurant resData={restaurant} />
+            ) : (
+              <RestaurantCard resData={restaurant} />
+            )}
           </Link>
         ))}
       </div>
