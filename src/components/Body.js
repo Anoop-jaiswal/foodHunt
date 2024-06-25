@@ -77,7 +77,7 @@ const Body = () => {
 
       <div className="res-container flex flex-wrap justify-center">
         {filteredRestaurants.map((restaurant) => (
-          <Link to={`/restaurants/${restaurant.id}`}>
+          <Link key={restaurant.id} to={`/restaurants/${restaurant.id}`}>
             {restaurant.avgRating > 4.5 ? (
               <RecommendedRestaurant resData={restaurant} />
             ) : (

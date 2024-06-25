@@ -1,15 +1,20 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useContext } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Cart from "./components/Cart";
 import Error from "./components/Error";
 import Body from "./components/Body";
+import UserContext from "./utils/UserContext";
 
 const AppLayout = () => {
+  const userContext = useContext(UserContext);
+  console.log(userContext.loginInfo);
   return (
     <div className="app">
-      <Header />
+      <UserContext.Provider value={{ loginInfo: "changed" }}>
+        <Header />
+      </UserContext.Provider>
       <Outlet />
     </div>
   );
