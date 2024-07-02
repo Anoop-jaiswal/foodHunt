@@ -1,10 +1,15 @@
+import { addItems } from "../utils/cartSlice";
 import { IMAGE_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
 
 const CategoryItemList = ({ itemList }) => {
-  console.log(itemList, "item");
+  const dispatch = useDispatch();
+  const handleAddBtn = (item) => {
+    dispatch(addItems(item));
+  };
   return (
     <div>
-      {itemList.map((item) => {
+      {itemList?.map((item) => {
         return (
           <div className="border-b-2 p-2 m-2 text-left flex justify-between">
             <div className="w-9/12">
@@ -29,7 +34,10 @@ const CategoryItemList = ({ itemList }) => {
                       src={IMAGE_URL + item.card.info.imageId}
                     />
                   }
-                  <button className="absolute m-1 px-3 -my-4 bg-white font-bold text-green-500 border mx-3 rounded shadow-lg">
+                  <button
+                    onClick={() => handleAddBtn(item)}
+                    className="absolute m-1 px-3 -my-4 bg-white font-bold text-green-500 border mx-3 rounded shadow-lg"
+                  >
                     ADD
                   </button>
                 </div>
